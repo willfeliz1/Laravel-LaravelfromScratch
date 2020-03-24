@@ -30,6 +30,30 @@ Route::get('/posts/{post}', function ($post){
 
 });
 
+Route::get('/contact', function(){
+    return view('contact');  
+  });
+
+Route::get('/about', function(){
+    $article = App\Article::latest()->get();
+    return view('about', [
+        'articles' => App\Article::latest()->get()
+    ]);
+});
+
+Route::get('/articles', 'ArticlesController@index')->name('articles.index');
+Route::post('/articles', 'ArticlesController@store');
+Route::get('/articles/create', 'ArticlesController@create');
+Route::get('/articles/{article}', 'ArticlesController@show')->name('articles.show');
+Route::get('/articles/{article}/edit','ArticlesController@edit');
+Route::put('/articles/{article}', 'ArticlesController@update');
+Route::get('/articles/{article}/delete', 'ArticlesController@delete');
+
+
+
 Route::get('/posts/{post}', 'PostsController@show');
+
+Route::view('/', 'welcome');
+
 
 
