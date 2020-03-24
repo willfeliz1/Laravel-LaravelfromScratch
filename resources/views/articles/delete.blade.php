@@ -6,7 +6,7 @@
 @section('content')
     <div id=wrapper>
         <div id="page" class="container">
-            <h1 class="heading has-text-weight-bold">Update Article</h1>
+            <h1 class="heading has-text-weight-bold">Delete Article</h1>
 
             <form method="POST" action="/articles/{{ $article->id }}">
             @csrf
@@ -37,9 +37,7 @@
                 </div>
                 <div class="field is-grouped">
                     <div class="control">
-                        <button class="button is-link" type="submit">Submit</button>
-                        <a href="/articles/{{$article->id}}/delete">Excluir</a>
-
+                        <button class="button is-link" type="submit">Delete</button>
                     </div>
                 </div>
             </form>

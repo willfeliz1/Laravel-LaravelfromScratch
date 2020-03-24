@@ -8,8 +8,7 @@ use Illuminate\Http\Request;
 class ArticlesController extends Controller
 {
     //render a list a resource
-    public function show($id){
-        $article = Article::find($id);
+    public function show(Article $article){
         return view('articles.show', ['article' => $article]);
     }
 
@@ -23,33 +22,32 @@ class ArticlesController extends Controller
         return view('articles.create');
     }
 
-    public function store(){
-        $article = new Article();
-        $article->title = request('title');
-        $article->excerpt = request('excerpt');
-        $article->body = request('body');
-        $article->save();
-
-        return redirect('/articles');
+    public function store(){    
+        Article::create($this->validateArticle());
+        return redirect(route('articles.index'));
     }
 
-    public function edit($id){
-        $article = Article::find($id);
+    public function edit(Article $article){
         return view('articles.edit', compact('article'));
     }
 
-    public function update($id){
-        $article = Article::find($id);
-        $article->title = request('title');
-        $article->excerpt = request('excerpt');
-        $article->body = request('body');
-        $article->save();
-
-        return redirect('/articles/' . $article->id);
+    public function update(Article $article){
+        $article->update($this->validateArticle());   
+        return redirect($article->path());
     }
 
-    public function destroy(){
-        //delete the resource
+    //delete the resource
+    public function delete(Article $article){
+        $article->delete();
+        return redirect(route('articles.index'));
+    }
+
+    protected function validateArticle(){
+        return request()->validate([
+            'title' => 'required',
+            'excerpt' => 'required',
+            'body' => 'required',
+        ]);
     }
 
 }
